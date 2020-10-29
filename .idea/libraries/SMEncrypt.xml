@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SMEncrypt">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../代码/SM2_SM3_SM4Encrypt-master/target/SMEncrypt.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

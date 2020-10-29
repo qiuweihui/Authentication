@@ -1,4 +1,4 @@
-package com.cug.SM2;
+package com.cug.SM;
 
 import java.math.BigInteger;
 

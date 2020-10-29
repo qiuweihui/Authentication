@@ -1,4 +1,4 @@
-package com.cug.SM2;
+package com.cug.SM;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -207,7 +207,8 @@ public class SM3 {
         return resultSb.toString();
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(SM3.byteArrayToHexString(SM3.hash("test sm3 hash".getBytes())));
+   /* public static void main(String[] args) throws IOException {
+       System.out.println(SM3.byteArrayToHexString(SM3.hash("test sm3 hash".getBytes())));
     }
+    */
 }

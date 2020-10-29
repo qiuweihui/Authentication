@@ -207,7 +207,7 @@ public class HashComputeTest {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(HashComputeTest.byteArrayToHexString(HashComputeTest.hash("test sm3 hash".getBytes())));
+        System.out.println(HashComputeTest.byteArrayToHexString(HashComputeTest.hash("D:\\video\\001.mp4".getBytes())));
     }
 }
 

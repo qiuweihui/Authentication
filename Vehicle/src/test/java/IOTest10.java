@@ -1,42 +1,16 @@
-package SM2;
-
-import com.cug.SM.SM2;
-import com.cug.SM.SM2KeyPair;
-import org.bouncycastle.math.ec.ECPoint;
-
 import java.io.*;
-import java.math.BigInteger;
 
 /**
  * @author qiuweihui
- * @create 2020-10-27 22:22
+ * @create 2020-10-28 19:42
  */
-public class TestSM2 {
-    public static void main(String[] args) throws FileNotFoundException {
-        SM2 x = new SM2();
-        SM2KeyPair keys = x.generateKeyPair();
-        ECPoint pubKey = keys.getPublicKey();
-        BigInteger privKey = keys.getPrivateKey();
-        byte[] bytesdata = fileToByteArray("D:\\Test\\001.jpg");//原文件转为字节数组
-        String stringdata = new String(bytesdata);                     //字节数组转为字符串String
-        byte[] data = x.encrypt(stringdata, pubKey);    //加密读入string类型输出byte类型
-        String res = new String(data);
-        String origin = x.decrypt(data, privKey);       //解密读入byte类型输出string类型
-        PrintStream ps = new PrintStream("D:\\Test\\key.txt");
-        System.setOut(ps);                              //把创建的打印输出流赋给系统。即系统下次向 ps输出
-        System.out.println(pubKey);
-        System.out.println(privKey);
-        PrintStream ps1 = new PrintStream("D:\\Test\\encrypt");
-        System.setOut(ps1);                              //把创建的打印输出流赋给系统。即系统下次向 ps1输出
-        System.out.println("encrypt: " + res);
-        PrintStream ps2 = new PrintStream("D:\\Test\\decrypt");
-        System.setOut(ps2);                               //把创建的打印输出流赋给系统。即系统下次向 ps2输出
-        System.out.println("decrypt: " + origin);
-
+ public class IOTest10 {
+    public static void main(String[] args) {
+        //指定文件源，获得该文件的字节数组
+        byte[] datas = fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组
+        byteArrayToFile(datas,"D:\\Test\\out.jpg");//字节数组转为图片
     }
-/*
-    文件的读取操作，读取成byte[]字节数组
- */
+
     public static byte[] fileToByteArray(String filePath) {
         //创建源与目的地
         File src = new File(filePath);//获得文件的源头，从哪开始传入(源)
@@ -72,5 +46,37 @@ public class TestSM2 {
 
         }
         return null;
+    }
+    public static void byteArrayToFile(byte[] src, String filePath) {
+        //创建源
+        File dest = new File(filePath);//目的地，新文件
+        //src字节数组已经存在
+        //选择流
+        InputStream is = null;//ByteArrayInputStream的父类
+        OutputStream os = null;
+        //操作
+        try {
+            is = new ByteArrayInputStream(src);//字节数组与程序之间的管道
+            os = new FileOutputStream(dest);//程序与新文件之间的管道
+            //一样的字节数组缓冲操作
+            byte[] flush = new byte[1024 * 10];
+            int len = -1;
+            while ((len = is.read(flush)) != -1) {
+                os.write(flush, 0, len);
+            }
+            os.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (null != os) {//关闭文件流
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
