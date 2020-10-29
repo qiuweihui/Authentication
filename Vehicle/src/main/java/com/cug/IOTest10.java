@@ -1,3 +1,5 @@
+package com.cug;
+
 import java.io.*;
 
 /**

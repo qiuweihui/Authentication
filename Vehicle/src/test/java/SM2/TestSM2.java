@@ -1,76 +1,139 @@
 package SM2;
 
-import com.cug.SM.SM2;
-import com.cug.SM.SM2KeyPair;
-import org.bouncycastle.math.ec.ECPoint;
+import cn.xjfme.encrypt.utils.Util;
+import cn.xjfme.encrypt.utils.sm2.SM2EncDecUtils;
+import cn.xjfme.encrypt.utils.sm2.SM2KeyVO;
+import cn.xjfme.encrypt.utils.sm2.SM2SignVO;
+import cn.xjfme.encrypt.utils.sm2.SM2SignVerUtils;
+import com.cug.IOTest10;
+import org.bouncycastle.asn1.ASN1EncodableVector;
+import org.bouncycastle.asn1.ASN1Integer;
+import org.bouncycastle.asn1.DERSequence;
 
-import java.io.*;
-import java.math.BigInteger;
+import java.io.IOException;
 
 /**
  * @author qiuweihui
  * @create 2020-10-27 22:22
  */
 public class TestSM2 {
-    public static void main(String[] args) throws FileNotFoundException {
-        SM2 x = new SM2();
-        SM2KeyPair keys = x.generateKeyPair();
-        ECPoint pubKey = keys.getPublicKey();
-        BigInteger privKey = keys.getPrivateKey();
-        byte[] bytesdata = fileToByteArray("D:\\Test\\001.jpg");//原文件转为字节数组
-        String stringdata = new String(bytesdata);                     //字节数组转为字符串String
-        byte[] data = x.encrypt(stringdata, pubKey);    //加密读入string类型输出byte类型
-        String res = new String(data);
-        String origin = x.decrypt(data, privKey);       //解密读入byte类型输出string类型
-        PrintStream ps = new PrintStream("D:\\Test\\key.txt");
-        System.setOut(ps);                              //把创建的打印输出流赋给系统。即系统下次向 ps输出
-        System.out.println(pubKey);
-        System.out.println(privKey);
-        PrintStream ps1 = new PrintStream("D:\\Test\\encrypt");
-        System.setOut(ps1);                              //把创建的打印输出流赋给系统。即系统下次向 ps1输出
-        System.out.println("encrypt: " + res);
-        PrintStream ps2 = new PrintStream("D:\\Test\\decrypt");
-        System.setOut(ps2);                               //把创建的打印输出流赋给系统。即系统下次向 ps2输出
-        System.out.println("decrypt: " + origin);
+    public static final String SM2PubHardKeyHead = "3059301306072A8648CE3D020106082A811CCF5501822D034200";
+    public static void main(String[] args) throws Exception {
+
+        //指定文件源，获得该文件的字节数组
+        byte[] datas = IOTest10.fileToByteArray("D:\\Test\\001.mp4");//图片转为字节数组
+        IOTest10.byteArrayToFile(datas,"D:\\Test\\out.jpg");//字节数组转为图片
+        String src = new String(datas);
+        System.out.println("--产生SM2秘钥--:");
+        SM2KeyVO sm2KeyVO = generateSM2Key();
+        System.out.println("公钥:" + sm2KeyVO.getPubHexInSoft());
+        System.out.println("私钥:" + sm2KeyVO.getPriHexInSoft());
+        //数据加密
+        System.out.println("--测试加密开始--");
+        System.out.println("原文UTF-8转hex:" + Util.byteToHex(src.getBytes()));
+        String SM2Enc = SM2Enc(sm2KeyVO.getPubHexInSoft(), src);
+        System.out.println("加密:");
+        System.out.println("密文:" + SM2Enc);
+        String SM2Dec = SM2Dec(sm2KeyVO.getPriHexInSoft(), SM2Enc);
+        System.out.println("解密:" + SM2Dec);
+        System.out.println("--测试加密结束--");
+
+        System.out.println("--测试SM2签名--");
+        System.out.println("原文hex:" + Util.byteToHex(src.getBytes()));
+        String s5 = Util.byteToHex(src.getBytes());
+
+        System.out.println("签名测试开始:");
+        SM2SignVO sign = genSM2Signature(sm2KeyVO.getPriHexInSoft(), s5);
+        System.out.println("软加密签名结果:" + sign.getSm2_signForSoft());
+        System.out.println("加密机签名结果:" + sign.getSm2_signForHard());
+        //System.out.println("转签名测试:"+SM2SignHardToSoft(sign.getSm2_signForHard()));
+        System.out.println("验签1,软件加密方式:");
+        boolean b = verifySM2Signature(sm2KeyVO.getPubHexInSoft(), s5, sign.getSm2_signForSoft());
+        System.out.println("软件加密方式验签结果:" + b);
+        System.out.println("验签2,硬件加密方式:");
+        String sm2_signForHard = sign.getSm2_signForHard();
+        System.out.println("签名R:" + sign.sign_r);
+        System.out.println("签名S:" + sign.sign_s);
+        //System.out.println("硬:"+sm2_signForHard);
+        b = verifySM2Signature(sm2KeyVO.getPubHexInSoft(), s5, SM2SignHardToSoft(sign.getSm2_signForHard()));
+        System.out.println("硬件加密方式验签结果:" + b);
+        if (!b) {
+            throw new RuntimeException();
+        }
+        System.out.println("--签名测试结束--");
 
     }
-/*
-    文件的读取操作，读取成byte[]字节数组
- */
-    public static byte[] fileToByteArray(String filePath) {
-        //创建源与目的地
-        File src = new File(filePath);//获得文件的源头，从哪开始传入(源)
-        byte[] dest = null;//最后在内存中形成的字节数组(目的地)
-        //选择流
-        InputStream is = null;//此流是文件到程序的输入流
-        ByteArrayOutputStream baos = null;//此流是程序到新文件的输出流
-        //操作(输入操作)
+
+
+    //SM2公钥soft和Hard转换
+    public static String SM2PubKeySoftToHard(String softKey) {
+        return SM2PubHardKeyHead + softKey;
+    }
+
+    //SM2公钥Hard和soft转换
+    public static String SM2PubKeyHardToSoft(String hardKey) {
+        return hardKey.replaceFirst(SM2PubHardKeyHead, "");
+    }
+
+    //产生非对称秘钥
+    public static SM2KeyVO generateSM2Key() throws IOException {
+        SM2KeyVO sm2KeyVO = SM2EncDecUtils.generateKeyPair();
+        return sm2KeyVO;
+    }
+
+    //公钥加密
+    public static String SM2Enc(String pubKey, String src) throws IOException {
+        String encrypt = SM2EncDecUtils.encrypt(Util.hexStringToBytes(pubKey), src.getBytes());
+        //删除04
+        encrypt=encrypt.substring(2,encrypt.length());
+        return encrypt;
+    }
+
+    //私钥解密
+    public static String SM2Dec(String priKey, String encryptedData) throws IOException {
+        //填充04
+        encryptedData="04"+encryptedData;
+        byte[] decrypt = SM2EncDecUtils.decrypt(Util.hexStringToBytes(priKey), Util.hexStringToBytes(encryptedData));
+        return new String(decrypt);
+    }
+
+    //私钥签名,参数二:原串必须是hex!!!!因为是直接用于计算签名的,可能是SM3串,也可能是普通串转Hex
+    public static SM2SignVO genSM2Signature(String priKey, String sourceData) throws Exception {
+        SM2SignVO sign = SM2SignVerUtils.Sign2SM2(Util.hexToByte(priKey), Util.hexToByte(sourceData));
+        return sign;
+    }
+
+    //公钥验签,参数二:原串必须是hex!!!!因为是直接用于计算签名的,可能是SM3串,也可能是普通串转Hex
+    public static boolean verifySM2Signature(String pubKey, String sourceData, String hardSign) {
+        SM2SignVO verify = SM2SignVerUtils.VerifySignSM2(Util.hexStringToBytes(pubKey), Util.hexToByte(sourceData), Util.hexToByte(hardSign));
+        return verify.isVerify();
+    }
+
+    //SM2签名Hard转soft
+    public static String SM2SignHardToSoft(String hardSign) {
+        byte[] bytes = Util.hexToByte(hardSign);
+        byte[] r = new byte[bytes.length / 2];
+        byte[] s = new byte[bytes.length / 2];
+        System.arraycopy(bytes, 0, r, 0, bytes.length / 2);
+        System.arraycopy(bytes, bytes.length / 2, s, 0, bytes.length / 2);
+        ASN1Integer d_r = new ASN1Integer(Util.byteConvertInteger(r));
+        ASN1Integer d_s = new ASN1Integer(Util.byteConvertInteger(s));
+        ASN1EncodableVector v2 = new ASN1EncodableVector();
+        v2.add(d_r);
+        v2.add(d_s);
+        DERSequence sign = new DERSequence(v2);
+
+        String result = null;
         try {
-            is = new FileInputStream(src);//文件输入流
-            baos = new ByteArrayOutputStream();//字节输出流，不需要指定文件，内存中存在
-            byte[] flush = new byte[1024 * 10];//设置缓冲，这样便于传输，大大提高传输效率
-            int len = -1;//设置每次传输的个数,若没有缓冲的数据大，则返回剩下的数据，没有数据返回-1
-            while ((len = is.read(flush)) != -1) {
-                baos.write(flush, 0, len);//每次读取len长度数据后，将其写出
-            }
-            baos.flush();//刷新管道数据
-            dest = baos.toByteArray();//最终获得的字节数组
-            return dest;//返回baos在内存中所形成的字节数组
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            result = Util.byteToHex(sign.getEncoded());
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            //释放资源,文件需要关闭,字节数组流无需关闭
-            if (null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            throw new RuntimeException(e);
         }
-        return null;
+        //SM2加密机转软加密编码格式
+        //return SM2SignHardKeyHead+hardSign.substring(0, hardSign.length()/2)+SM2SignHardKeyMid+hardSign.substring(hardSign.length()/2);
+        return result;
     }
+
+
 }
