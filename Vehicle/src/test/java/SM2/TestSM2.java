@@ -21,7 +21,7 @@ public class TestSM2 {
     public static void main(String[] args) throws Exception {
 
         //指定文件源，获得该文件的字节数组
-        byte[] datas = IOTest10.fileToByteArray("D:\\Test\\001.mp4");//图片转为字节数组
+        byte[] datas = IOTest10.fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组
         IOTest10.byteArrayToFile(datas,"D:\\Test\\out.jpg");//字节数组转为图片
         String src = new String(datas);
         System.out.println("--产生SM2秘钥--:");
