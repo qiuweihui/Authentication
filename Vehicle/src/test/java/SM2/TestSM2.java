@@ -5,7 +5,7 @@ import cn.xjfme.encrypt.utils.sm2.SM2EncDecUtils;
 import cn.xjfme.encrypt.utils.sm2.SM2KeyVO;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVO;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVerUtils;
-import com.cug.IOTest10;
+import com.cug.utils.IOUtil;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.DERSequence;
@@ -21,8 +21,8 @@ public class TestSM2 {
     public static void main(String[] args) throws Exception {
 
         //指定文件源，获得该文件的字节数组
-        byte[] datas = IOTest10.fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组
-        IOTest10.byteArrayToFile(datas,"D:\\Test\\out.jpg");//字节数组转为图片
+        byte[] datas = IOUtil.fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组
+        IOUtil.byteArrayToFile(datas,"D:\\Test\\out.jpg");//字节数组转为图片
         String src = new String(datas);
         System.out.println("--产生SM2秘钥--:");
         SM2KeyVO sm2KeyVO = generateSM2Key();
@@ -46,7 +46,7 @@ public class TestSM2 {
         SM2SignVO sign = genSM2Signature(sm2KeyVO.getPriHexInSoft(), s5);
         System.out.println("软加密签名结果:" + sign.getSm2_signForSoft());
         System.out.println("加密机签名结果:" + sign.getSm2_signForHard());
-        //System.out.println("转签名测试:"+SM2SignHardToSoft(sign.getSm2_signForHard()));
+        System.out.println("转签名测试:"+SM2SignHardToSoft(sign.getSm2_signForHard()));
         System.out.println("验签1,软件加密方式:");
         boolean b = verifySM2Signature(sm2KeyVO.getPubHexInSoft(), s5, sign.getSm2_signForSoft());
         System.out.println("软件加密方式验签结果:" + b);
@@ -54,7 +54,7 @@ public class TestSM2 {
         String sm2_signForHard = sign.getSm2_signForHard();
         System.out.println("签名R:" + sign.sign_r);
         System.out.println("签名S:" + sign.sign_s);
-        //System.out.println("硬:"+sm2_signForHard);
+        System.out.println("硬:"+sm2_signForHard);
         b = verifySM2Signature(sm2KeyVO.getPubHexInSoft(), s5, SM2SignHardToSoft(sign.getSm2_signForHard()));
         System.out.println("硬件加密方式验签结果:" + b);
         if (!b) {

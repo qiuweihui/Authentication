@@ -1,4 +1,4 @@
-package com.cug;
+package com.cug.utils;
 
 import java.io.*;
 
@@ -6,7 +6,7 @@ import java.io.*;
  * @author qiuweihui
  * @create 2020-10-28 19:42
  */
- public class IOTest10 {
+ public class IOUtil {
     public static void main(String[] args) {
         //指定文件源，获得该文件的字节数组
         byte[] datas = fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组

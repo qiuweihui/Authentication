@@ -1,6 +1,6 @@
 package com.cug.vehicle;
 
-import com.cug.IOTest10;
+import com.cug.utils.IOUtil;
 import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.util.encoders.Hex;
 
@@ -10,19 +10,19 @@ import java.io.PrintStream;
 /**
  * @author qiuweihui
  * @create 2020-10-27 21:19
+ * 对于视频图片数据的加密
  */
 public class HashCompute {
     public static void main(String[] args) throws IOException {
         //指定文件源，获得该文件的字节数组
-        byte[] datas = IOTest10.fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组
-        //byteArrayToFile(datas,"D:\\Test\\out.jpg");//字节数组转为图片
+        byte[] datas = IOUtil.fileToByteArray("D:\\TestData\\Vehicle\\ImageData\\001.jpg");//文件转为字节数组
         String src = new String(datas);
-        PrintStream ps = new PrintStream("D:\\Test\\hash.txt");
+        PrintStream ps = new PrintStream("D:\\TestData\\Vehicle\\hash_image.txt");
         System.setOut(ps);                              //把创建的打印输出流赋给系统。即系统下次向 ps输出
-        System.out.println("--SM3摘要测试--");
+        //System.out.println("--SM3摘要测试--");
         String s = generateSM3HASH(src);
-        System.out.println("hash:" + s);
-        System.out.println("--SM3摘要结束--");
+        System.out.println( s);
+        //System.out.println("--SM3摘要结束--");
     }
 
     public static String generateSM3HASH(String src) {

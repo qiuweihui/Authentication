@@ -23,6 +23,11 @@
             <artifactId>SM2_SM3_SM4Encrypt-1.0-SNAPSHOT</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.56</version>
+        </dependency>
     </dependencies>
 
 
