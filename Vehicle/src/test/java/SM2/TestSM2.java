@@ -21,7 +21,7 @@ public class TestSM2 {
     public static void main(String[] args) throws Exception {
 
         //指定文件源，获得该文件的字节数组
-        byte[] datas = IOUtil.fileToByteArray("D:\\Test\\001.jpg");//图片转为字节数组
+        byte[] datas = IOUtil.fileToByteArray("D:\\TestData\\123.txt");//图片转为字节数组
         String src = new String(datas);         //数组转String
         System.out.println("--产生SM2秘钥--:");
         SM2KeyVO sm2KeyVO = generateSM2Key();
@@ -41,12 +41,12 @@ public class TestSM2 {
         System.out.println("原文hex:" + Util.byteToHex(src.getBytes()));
         String s5 = Util.byteToHex(src.getBytes());
 
-        System.out.println("签名测试开始:");
+        //System.out.println("签名测试开始:");
         SM2SignVO sign = genSM2Signature(sm2KeyVO.getPriHexInSoft(), s5);
         System.out.println("软加密签名结果:" + sign.getSm2_signForSoft());
-        System.out.println("加密机签名结果:" + sign.getSm2_signForHard());
+        /*System.out.println("加密机签名结果:" + sign.getSm2_signForHard());
         System.out.println("转签名测试:"+SM2SignHardToSoft(sign.getSm2_signForHard()));
-        System.out.println("验签1,软件加密方式:");
+        System.out.println("验签1,软件加密方式:");*/
         boolean b = verifySM2Signature(sm2KeyVO.getPubHexInSoft(), s5, sign.getSm2_signForSoft());
         System.out.println("软件加密方式验签结果:" + b);
 /*        System.out.println("验签2,硬件加密方式:");
