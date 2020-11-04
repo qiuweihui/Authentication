@@ -11,5 +11,8 @@
         <module name="EdgeServer" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Authentication" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

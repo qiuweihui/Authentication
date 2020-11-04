@@ -1,5 +1,3 @@
-package com.cug.chain;
-
 import cn.hutool.json.JSONObject;
 
 import java.io.*;
@@ -9,10 +7,10 @@ import java.net.URL;
 
 /**
  * @author qiuweihui
- * @create 2020-10-27 21:40
+ * @create 2020-11-04 10:53
  */
-public class UpChain {
-    public static final String ADD_URL = "http://mgds.mingbyte.com/carbaas/uploadServerKey";
+public class HttpTest {
+    public static final String ADD_URL = "http://mgds.mingbyte.com/carbaas/uploadVehicleKey";
 
     public static void appadd() {
 
@@ -35,9 +33,9 @@ public class UpChain {
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             JSONObject obj = new JSONObject();
 
-            obj.put("serverId", "2001"); // SID
+            obj.put("vehicleId", "1001"); // VID
 
-            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9"); //服务器公钥哈希
+            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9"); //公钥哈希
 
             //System.out.println(obj.toString());
 
@@ -75,4 +73,5 @@ public class UpChain {
     public static void main(String[] args) {
         appadd();
     }
+
 }

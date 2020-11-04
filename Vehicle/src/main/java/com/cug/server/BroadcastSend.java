@@ -5,4 +5,5 @@ package com.cug.server;
  * @create 2020-10-27 21:22
  */
 public class BroadcastSend {
+
 }
