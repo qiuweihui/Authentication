@@ -108,7 +108,7 @@ public class ImageEncrypt {
         String dp = "D:\\TestData\\EdgeServer\\EncryptData\\encrypt";//加密后文件
         //String dp2 = "D:\\TestData\\004";//解密后文件
 
-        String key = Input.getString("D:\\TestData\\Vehicle\\sm4key.txt");
+        String key = Input.getString("D:\\TestData\\Vehicle\\sm4key.json");
         byte[] keyData = ByteUtils.fromHexString(key);
         long startTime = System.currentTimeMillis();
         //加密文件

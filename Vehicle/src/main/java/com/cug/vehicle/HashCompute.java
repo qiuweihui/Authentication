@@ -17,7 +17,7 @@ public class HashCompute {
         //指定文件源，获得该文件的字节数组
         byte[] datas = IOUtil.fileToByteArray("D:\\TestData\\Vehicle\\ImageData\\001.jpg");//文件转为字节数组
         String src = new String(datas);
-        PrintStream ps = new PrintStream("D:\\TestData\\Vehicle\\hash_image.txt");
+        PrintStream ps = new PrintStream("D:\\TestData\\Vehicle\\hash_image.json");
         System.setOut(ps);                              //把创建的打印输出流赋给系统。即系统下次向 ps输出
         //System.out.println("--SM3摘要测试--");
         String s = generateSM3HASH(src);

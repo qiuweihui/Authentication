@@ -1,8 +1,8 @@
 package com.cug.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.FileReader;
 
 /**
  * @author qiuweihui
@@ -12,16 +12,18 @@ public class Input {
 
     public static String getString(String filePath) throws Exception {
         File file = new File(filePath);
-        if (!file.exists()) {
-            return null;
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+            String s = null;
+            while ((s = br.readLine()) != null) {
+                //使用readLine方法，一次读一行
+                result = result + "\n" + s;
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        FileInputStream inputStream = new FileInputStream(file);
-        int length = inputStream.available();
-        byte bytes[] = new byte[length];
-        inputStream.read(bytes);
-        inputStream.close();
-        String str = new String(bytes, StandardCharsets.UTF_8);
-        return str;
-
+        return result;
     }
 }

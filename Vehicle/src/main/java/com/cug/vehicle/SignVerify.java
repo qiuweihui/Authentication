@@ -14,17 +14,17 @@ public class SignVerify {
     public static void main(String[] args) throws Exception {
 
         //--测试SM2签名--
-        String src = Input.getString("D:\\TestData\\Vehicle\\VID_Time.txt");
+        String src = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
         String srcHex = Util.byteToHex(src.getBytes());  //src是要签名的内容,将其转成Hex字符串
-        String src1 = Util.byteToHex(src.getBytes());
+        //String src1 = Util.byteToHex(src.getBytes());
 
        /* //签名测试开始,用车的私钥签名Time和VID（即src）
-        String prikey = Input.getString("D:\\TestData\\Vehicle\\prikey.txt");
+        String prikey = Input.getString("D:\\TestData\\Vehicle\\prikey.json");
         SM2SignVO sign = genSM2Signature(prikey.trim(), src1);
         //System.out.println(sign);*/
 
         //验签，用服务器私钥验签
-        String pubkey = Input.getString("D:\\TestData\\EdgeServer\\pubkey.txt");
+        String pubkey = Input.getString("D:\\TestData\\EdgeServer\\pubkey.json");
         String sign = Input.getString("D:\\TestData\\EdgeServer\\sign_vehicle");
         boolean b = verifySM2Signature(pubkey.trim(), srcHex, sign);//公钥，原文，签名后内容
         System.out.println("验签结果:" + b);
