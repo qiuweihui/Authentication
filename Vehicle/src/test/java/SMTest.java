@@ -4,6 +4,9 @@ import cn.xjfme.encrypt.utils.sm2.SM2KeyVO;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVO;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVerUtils;
 import cn.xjfme.encrypt.utils.sm4.SM4Utils;
+import com.alibaba.fastjson.JSONObject;
+import com.cug.utils.IOUtil;
+import com.cug.utils.Input;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.DERSequence;
@@ -32,19 +35,36 @@ public class SMTest {
     public static void main(String[] args) throws Exception {
         System.out.println("--产生SM2秘钥--:");
         SM2KeyVO sm2KeyVO = generateSM2Key();
-        System.out.println("公钥:" + sm2KeyVO.getPubHexInSoft());
-        System.out.println("私钥:" + sm2KeyVO.getPriHexInSoft());
+       // System.out.println("公钥:" + sm2KeyVO.getPubHexInSoft());
+        //System.out.println("私钥:" + sm2KeyVO.getPriHexInSoft());
         //数据加密
         System.out.println("--测试加密开始--");
-        String src = "I Love You";
-        System.out.println("原文UTF-8转hex:" + Util.byteToHex(src.getBytes()));
-        String SM2Enc = SM2Enc(sm2KeyVO.getPubHexInSoft(), src);
-        System.out.println("加密:");
-        System.out.println("密文:" + SM2Enc);
-        String SM2Dec = SM2Dec(sm2KeyVO.getPriHexInSoft(), SM2Enc);
-        System.out.println("解密:" + SM2Dec);
-        System.out.println("--测试加密结束--");
+        byte[] data1 = IOUtil.fileToByteArray("D:\\TestData\\EdgeServer\\pubkey.json");//读入服务器公钥
+        String src1 = new String(data1);
+        byte[] data2 = IOUtil.fileToByteArray("D:\\TestData\\EdgeServer\\sm4key.json");//读入SM4Key
+        String src2 = new String(data2);
+        String src = src1 + src2;
+        System.out.println("src:" + src);
+        //System.out.println("src原文UTF-8转hex:" + Util.byteToHex(src.getBytes()));
 
+       // byte[] byteskey = IOUtil.fileToByteArray("D:\\TestData\\EdgeServer\\pubkey_vehicle.json");//读入小车公钥，用于加密
+        //String key = new String(byteskey);
+
+        String jsonkey = Input.getString("D:\\TestData\\Vehicle\\key.json");//读入签名内容
+        JSONObject jsonObject = JSONObject.parseObject(jsonkey);
+        String pubkey = jsonObject.getString("pubkey");
+
+        //System.out.println(pubkey);
+        //System.out.println(sm2KeyVO.getPubHexInSoft());
+        String SM2Enc = SM2Enc(pubkey, src);
+        //System.out.println("加密:");
+        System.out.println("密文:" + SM2Enc);
+
+        String prikey = jsonObject.getString("prikey");
+        String SM2Dec = SM2Dec(prikey, SM2Enc);
+        System.out.println("解密:" + SM2Dec);
+        System.out.println("--测试加密解密结束--");
+/*
         System.out.println("--测试SM2签名--");
         System.out.println("原文hex:" + Util.byteToHex(src.getBytes()));
         String s5 = Util.byteToHex(src.getBytes());
@@ -89,7 +109,7 @@ public class SMTest {
         System.out.println("ECB密文:"+s3);
         System.out.println("ECB解密");
         String s4 = SM4DecForECB(sm4Key, s3);
-        System.out.println("ECB解密结果:"+s4);
+        System.out.println("ECB解密结果:"+s4);*/
     }
 
     //SM2公钥soft和Hard转换

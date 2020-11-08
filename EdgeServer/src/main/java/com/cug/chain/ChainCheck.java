@@ -10,6 +10,9 @@ import java.net.URL;
 /**
  * @author qiuweihui
  * @create 2020-10-27 21:41
+ * 服务器验证小车公钥和VID是否已在区块链上
+ * 步骤3
+ * 根据返回内容，若为1，继续下一步，若为0，直接返回拒绝服务
  */
 public class ChainCheck {
     public static final String ADD_URL = "http://mgds.mingbyte.com/carbaas/verifyVehicleKey";
@@ -38,9 +41,8 @@ public class ChainCheck {
             obj.put("vehicleId", "1001"); // VID
 
             obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9"); //公钥哈希
-
+            //服务器公钥哈希，测试用，后面会调用HashCompute
             //System.out.println(obj.toString());
-
             //out.writeBytes(obj.toString());//这个中文会乱码
             out.write(obj.toString().getBytes("UTF-8"));//这样可以处理中文乱码问题
             out.flush();

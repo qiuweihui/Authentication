@@ -10,6 +10,8 @@ import java.net.URL;
 /**
  * @author qiuweihui
  * @create 2020-10-27 21:40
+ * 步骤1‘，上传服务器公钥hash和SID到区块链
+ * 只在初始化时执行一次
  */
 public class UpChain {
     public static final String ADD_URL = "http://mgds.mingbyte.com/carbaas/uploadServerKey";
@@ -37,10 +39,10 @@ public class UpChain {
 
             obj.put("serverId", "2001"); // SID
 
-            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9"); //服务器公钥哈希
+            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9");
+            //服务器公钥哈希，测试用，后面会调用HashCompute
 
             //System.out.println(obj.toString());
-
             //out.writeBytes(obj.toString());//这个中文会乱码
             out.write(obj.toString().getBytes("UTF-8"));//这样可以处理中文乱码问题
             out.flush();
