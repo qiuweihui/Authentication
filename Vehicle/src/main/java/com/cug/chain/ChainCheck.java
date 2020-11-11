@@ -41,6 +41,7 @@ public class ChainCheck {
 
             //车辆端核验的是服务器SID和公钥是否匹配
             obj.put("serverId", "2001"); // SID
+
             obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9"); //服务器公钥哈希
             //服务器公钥哈希，测试用，后面会调用HashCompute
 

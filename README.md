@@ -12,7 +12,7 @@
 3.ImageEncrypt类
 ：视频图片数据的加密，使用SM4Key对称密钥，步骤8。
 
-4。KeyDecrypt类
+4.KeyDecrypt类
 ：密钥解密，将服务器发来的加密内容解密，获得服务器公钥和SM4Key，步骤5。
 
 5.Signature类
