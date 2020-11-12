@@ -12,8 +12,8 @@ import java.io.IOException;
  */
 public class UpServer extends Client {
     public static void main(String[] args) throws IOException {
-        UpServer.start("D:\\TestData\\Vehice\\  ");
-
+        UpServer.start("D:\\TestData\\Vehicle\\EncryptData");
+        //加密图像数据在小车的存放路径
     }
 
 }

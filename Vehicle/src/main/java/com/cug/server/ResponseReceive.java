@@ -13,6 +13,6 @@ import java.io.IOException;
 public class ResponseReceive extends Server {
 
     public static void main(String[] arge) throws IOException {
-        ResponseReceive.start("D:\\TestData\\");
+      //  ResponseReceive.start("D:\\TestData\\");
     }
 }

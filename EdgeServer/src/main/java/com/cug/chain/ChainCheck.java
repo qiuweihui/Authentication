@@ -29,7 +29,6 @@ public class ChainCheck {
             connection.setUseCaches(false);
             connection.setInstanceFollowRedirects(true);
 
-            //connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
 
             connection.connect();
@@ -38,13 +37,13 @@ public class ChainCheck {
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             JSONObject obj = new JSONObject();
             //边缘服务器端验证的是车的VID和公钥是否匹配
-            obj.put("vehicleId", "1001"); // VID
+            obj.put("vehicleId", "1001");
+            // VID
 
-            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9"); //公钥哈希
-            //服务器公钥哈希，测试用，后面会调用HashCompute
-            //System.out.println(obj.toString());
-            //out.writeBytes(obj.toString());//这个中文会乱码
-            out.write(obj.toString().getBytes("UTF-8"));//这样可以处理中文乱码问题
+            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9");
+            //公钥哈希，服务器公钥哈希，测试用，后面会调用HashCompute
+
+            out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
             out.close();
 

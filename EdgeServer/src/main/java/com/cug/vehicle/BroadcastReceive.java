@@ -12,9 +12,9 @@ import java.io.IOException;
  */
 public class BroadcastReceive extends Server{
     public static void main(String[] arge) throws IOException {
-        BroadcastReceive.start("D:\\TestData\\EdgeServer\\sign_vehicle.json");
-       // BroadcastReceive.start("D:\\TestData\\EdgeServer\\pubkey_vehicle,json");
-        //包括签名和小车公钥，分别存在sign_vehicle和pubkey_vehicle
+
+        BroadcastReceive.start("D:\\TestData\\EdgeServer\\broadcast_send.json");
+
     }
 
 }

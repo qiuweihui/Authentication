@@ -1,12 +1,11 @@
 package com.cug.utils;
 
+import cn.hutool.json.JSONObject;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
-
 import javax.crypto.KeyGenerator;
 import java.security.SecureRandom;
 import java.security.Security;
-
 import static cn.hutool.crypto.symmetric.SM4.ALGORITHM_NAME;
 
 /**
@@ -22,8 +21,10 @@ public class GenerateSM4Key {
 
         //生成Key并输出到指定位置存储
         byte[] bytes = generateKey(KEY_SIZE);
-        String key = ByteUtils.toHexString(bytes);
-        Output.wirteText(key,"D:\\TestData\\EdgeServer\\sm4key.json");//输出到服务器存储，之后还要用于对视频图片的解密
+        JSONObject jsonkey =new  JSONObject();
+        jsonkey.accumulate("sm4key",ByteUtils.toHexString(bytes));
+        Output.wirteText(String.valueOf(jsonkey),"D:\\TestData\\EdgeServer\\sm4key.json");
+        //输出到服务器存储，之后还要用于对视频图片的解密
 
     }
     public static byte[] generateKey(int keySize) throws Exception {

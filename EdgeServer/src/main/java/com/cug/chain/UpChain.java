@@ -28,7 +28,6 @@ public class UpChain {
             connection.setUseCaches(false);
             connection.setInstanceFollowRedirects(true);
 
-            //connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
 
             connection.connect();
@@ -37,14 +36,13 @@ public class UpChain {
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             JSONObject obj = new JSONObject();
 
-            obj.put("serverId", "2001"); // SID
+            obj.put("serverId", "2001");
+            // SID
 
             obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9");
             //服务器公钥哈希，测试用，后面会调用HashCompute
 
-            //System.out.println(obj.toString());
-            //out.writeBytes(obj.toString());//这个中文会乱码
-            out.write(obj.toString().getBytes("UTF-8"));//这样可以处理中文乱码问题
+            out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
             out.close();
 

@@ -22,8 +22,8 @@ public class SignVerify {
     public static void main(String[] args) throws Exception {
 
         //--SM2签名--
-        String src = Input.getString("D:\\TestData\\Vehicle\\src_sign_server.json");
-        String srcHex = Util.byteToHex(src.getBytes());  //读入原文，即要签名的原内容,将其转成Hex字符串
+        String src = Input.getString("D:\\TestData\\Vehicle\\SID_Time.json");
+        String srcHex = Util.byteToHex(src.getBytes());  //读入签名的原内容,将其转成Hex字符串
 
         String pubkey = Input.getString("D:\\TestData\\Vehicle\\pubkey_server.json");//直接读入服务器公钥
 

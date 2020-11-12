@@ -26,16 +26,20 @@ public class ImageDecrypt {
 
     public static void main(String[] args) throws Exception {
 
-        String dp = "D:\\TestData\\EdgeServer\\EncryptData\\encrypt";//加密后文件
-        String dp2 = "D:\\TestData\\EdgeServer\\DecryptData\\decrypt";//解密后文件，指定文件格式，如.jpg.mp4可直接播放
+        String dp = "D:\\TestData\\EdgeServer\\EncryptData\\encrypt";
+        //加密后文件
+        String dp2 = "D:\\TestData\\EdgeServer\\DecryptData\\decrypt";
+        //解密后文件，指定文件格式，如.jpg.mp4可直接播放
         String key = Input.getString("D:\\TestData\\Vehicle\\sm4key.json");
         byte[] keyData = ByteUtils.fromHexString(key);
         long startTime = System.currentTimeMillis();
 
         //解密文件
         decryptFile(keyData, dp, dp2);
-        long endTime2 = System.currentTimeMillis();    //获取结束时间
-        System.out.println("解密文件时间：" + (endTime2 - startTime) + "ms");    //输出程序运行时间
+        long endTime2 = System.currentTimeMillis();
+        //获取结束时间
+        System.out.println("解密文件时间：" + (endTime2 - startTime) + "ms");
+        //输出程序运行时间
     }
 
 

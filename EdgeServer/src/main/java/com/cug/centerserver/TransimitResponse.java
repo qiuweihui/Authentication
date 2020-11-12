@@ -14,7 +14,8 @@ import java.io.IOException;
 public class TransimitResponse extends Server {
 
     public static void main(String[] arge) throws IOException {
-        TransimitResponse.start("D:\\TestData\\EdgeServer\\center_response.json");//接收的内容暂定为视频存路径，为String
+        TransimitResponse.start("D:\\TestData\\EdgeServer\\center_response.json");
+        //接收的内容暂定为视频存路径，为String，路径存入center_response.json
     }
 
 }

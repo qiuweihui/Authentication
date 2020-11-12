@@ -17,5 +17,4 @@ public class DataTransmit extends Client {
         DataTransmit.start("D:\\TestData\\EdgeServer\\DecryptData");
     }
 
-
 }

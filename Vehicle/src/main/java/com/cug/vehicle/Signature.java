@@ -28,14 +28,14 @@ public class Signature {
 
         //--测试SM2签名--
         String src = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
-        String srcHex = Util.byteToHex(src.getBytes());  //src是要签名的内容,将其转成Hex字符串
+        String srcHex = Util.byteToHex(src.getBytes());
+        //src是要签名的内容,将其转成Hex字符串
 
         //签名开始,用车的私钥签名Time和VID（即src）
         String prikey = Input.getString("D:\\TestData\\Vehicle\\prikey.json");
         SM2SignVO sign = genSM2Signature(prikey.trim(), srcHex);
         JSONObject json = JSONUtil.parseObj(sign, true, true);
-       Output.wirteText(String.valueOf(json),"D:\\TestData\\Vehicle\\sign_self.json");
-       // System.out.println("签名生成完成");
+       Output.wirteText(String.valueOf(json),"D:\\TestData\\Vehicle\\sign_vehicle.json");
 
     }
 

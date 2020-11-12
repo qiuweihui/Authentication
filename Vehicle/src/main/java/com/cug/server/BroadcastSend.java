@@ -1,7 +1,9 @@
 package com.cug.server;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cug.utils.Client;
-import java.io.IOException;
+import com.cug.utils.Input;
+import com.cug.utils.Output;
 
 /**
  * @author qiuweihui
@@ -12,10 +14,22 @@ import java.io.IOException;
  **/
 public class BroadcastSend extends Client {
 
-        // 发送的文件存储路径
-    public static void main(String[] args) throws IOException {
-        BroadcastSend.start("D:\\TestData\\Vehicle\\sign_self.json");
-       // BroadcastSend.start("D:\\TestData\\Vehicle\\sm4key.json");
+    public static void main(String[] args) throws Exception {
+        String jsonkey1 = Input.getString("D:\\TestData\\Vehicle\\pubkey.json");
+        JSONObject jsonObject1 = JSONObject.parseObject(jsonkey1);
+        String jsonkey2 = Input.getString("D:\\TestData\\Vehicle\\sign_vehicle.json");
+        JSONObject jsonObject2 = JSONObject.parseObject(jsonkey2);
+        String jsonkey3 = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
+        JSONObject jsonObject3 = JSONObject.parseObject(jsonkey3);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.putAll(jsonObject1);
+        jsonObject.putAll(jsonObject2);
+        jsonObject.putAll(jsonObject3);
+        Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\Vehicle\\broadcast_send.json");
+
+        BroadcastSend.start("D:\\TestData\\Vehicle\\broadcast_send.json");
+
     }
 
 }

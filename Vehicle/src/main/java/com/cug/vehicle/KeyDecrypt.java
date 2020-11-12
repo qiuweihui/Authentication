@@ -23,11 +23,13 @@ public class KeyDecrypt {
         JSONObject jsonObject = JSONObject.parseObject(jsonkey);
         String prikey = jsonObject.getString("prikey");
 
-        String encrypt = Input.getString("D:\\TestData\\EdgeServer\\key_encrypt.json");//读入服务器发来的加密内容
+        String encrypt = Input.getString("D:\\TestData\\EdgeServer\\key_encrypt.json");
+        //读入服务器发来的加密内容，这里先在服务器文件夹中直接读取
 
         JSONObject encryptObject = JSONObject.parseObject(encrypt);
         String encryptInfo = encryptObject.getString("encrypt");
-        String decryptInfo = SM2Dec(prikey,encryptInfo);        //解密出SM4Key和服务器公钥，分别存储，直接存为字符串即可
+        String decryptInfo = SM2Dec(prikey,encryptInfo);
+        //解密出SM4Key和服务器公钥，分别存储，直接存为字符串即可
         Output.wirteText(decryptInfo.substring(0,130),"D:\\TestData\\Vehicle\\pubkey_server.json");
         Output.wirteText(decryptInfo.substring(130),"D:\\TestData\\Vehicle\\sm4key.json");
 

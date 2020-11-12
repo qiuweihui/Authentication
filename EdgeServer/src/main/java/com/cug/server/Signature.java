@@ -16,6 +16,7 @@ import com.cug.utils.Output;
  * 属于第5步的前提
  */
 
+
 public class Signature {
     //生成签名
     public static SM2SignVO genSM2Signature(String priKey, String sourceData) throws Exception {

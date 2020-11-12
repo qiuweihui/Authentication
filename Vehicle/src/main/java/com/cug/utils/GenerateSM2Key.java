@@ -18,9 +18,13 @@ public class GenerateSM2Key {
         SM2KeyVO sm2KeyVO = generateSM2Key();
         JSONObject jsonkey =new  JSONObject();
         jsonkey.accumulate("pubkey",sm2KeyVO.getPubHexInSoft());
-        jsonkey.accumulate("prikey",sm2KeyVO.getPriHexInSoft());
+        Output.wirteText(String.valueOf(jsonkey),"D:\\TestData\\Vehicle\\pubkey.json");
+        //生成的公私钥
 
-        Output.wirteText(String.valueOf(jsonkey),"D:\\TestData\\Vehicle\\key.json");//生成的公私钥
+        JSONObject jsonkey1 =new  JSONObject();
+        jsonkey1.accumulate("prikey",sm2KeyVO.getPriHexInSoft());
+        Output.wirteText(String.valueOf(jsonkey1),"D:\\TestData\\Vehicle\\prikey.json");
+        //生成的公私钥
 
     }
     public static SM2KeyVO generateSM2Key() throws IOException {
