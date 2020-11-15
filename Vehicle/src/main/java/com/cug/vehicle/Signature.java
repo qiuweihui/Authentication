@@ -7,7 +7,6 @@ import cn.xjfme.encrypt.utils.sm2.SM2SignVO;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVerUtils;
 import com.cug.utils.Input;
 import com.cug.utils.Output;
-
 /**
  * @author qiuweihui
  * @create 2020-10-27 21:22
@@ -24,15 +23,23 @@ public class Signature {
         SM2SignVO sign = SM2SignVerUtils.Sign2SM2(Util.hexToByte(priKey), Util.hexToByte(sourceData));
         return sign;
     }
+    //JsonTOString
+    public static String jsonToString(String path , String key) throws Exception {
+        String fi = Input.getString(path);
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
+        String src = jsonObject.getString(key);
+        return src;
+        //返回传入路径和Key值对应的value值
+    }
     public static void main(String[] args) throws Exception {
 
-        //--测试SM2签名--
-        String src = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
+        String src = jsonToString("D:\\TestData\\Vehicle\\VID_Time.json","VID_Time");
         String srcHex = Util.byteToHex(src.getBytes());
         //src是要签名的内容,将其转成Hex字符串
 
         //签名开始,用车的私钥签名Time和VID（即src）
-        String prikey = Input.getString("D:\\TestData\\Vehicle\\prikey.json");
+        String prikey = jsonToString("D:\\TestData\\Vehicle\\prikey.json","prikey");
+
         SM2SignVO sign = genSM2Signature(prikey.trim(), srcHex);
         JSONObject json = JSONUtil.parseObj(sign, true, true);
        Output.wirteText(String.valueOf(json),"D:\\TestData\\Vehicle\\sign_vehicle.json");

@@ -29,10 +29,13 @@ public class ImageEncrypt {
 
     public static void main(String[] args) throws Exception {
 
-        String sp = "D:\\TestData\\Vehicle\\ImageData\\001.mp4";//原始文件
-        String dp = "D:\\TestData\\Vehicle\\EncryptData\\encrypt";//加密后文件，是否存放在行车记录仪中待讨论
+        String sp = "D:\\TestData\\Vehicle\\ImageData\\TestVideo.avi";
+        //原始文件
+        String dp = "D:\\TestData\\Vehicle\\EncryptData\\encrypt";
+        //加密后的文件
 
-        String key = Input.getString("D:\\TestData\\Vehicle\\sm4key.json");//读入SM4Key
+        String key = jsonToString("D:\\TestData\\Vehicle\\sm4key.json","sm4key");
+        //读入SM4Key
         byte[] keyData = ByteUtils.fromHexString(key);
         //SM4加密文件
         encryptFile(keyData,sp,dp);
@@ -74,5 +77,12 @@ public class ImageEncrypt {
         } catch (FileNotFoundException | java.security.InvalidKeyException e) {
             e.printStackTrace();
         }
+    }
+    public static String jsonToString(String path , String key) throws Exception {
+        String fi = Input.getString(path);
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
+        String src = jsonObject.getString(key);
+        return src;
+        //返回传入路径和Key值对应的value值
     }
 }

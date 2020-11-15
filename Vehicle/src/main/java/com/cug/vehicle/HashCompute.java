@@ -1,10 +1,9 @@
 package com.cug.vehicle;
 
-import com.cug.utils.IOUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.cug.utils.Input;
 import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.util.encoders.Hex;
-import java.io.IOException;
-import java.io.PrintStream;
 
 /**
  * @author qiuweihui
@@ -15,14 +14,19 @@ import java.io.PrintStream;
  *
  */
 public class HashCompute {
-    public static void main(String[] args) throws IOException {
-        //指定文件源，获得该文件的字节数组
-        byte[] datas = IOUtil.fileToByteArray("D:\\TestData\\Vehicle\\");//计算的内容先转为字节数组
-        String src = new String(datas);
-        PrintStream ps = new PrintStream("D:\\TestData\\Vehicle\\hash_image.json");
-        System.setOut(ps);                              //把创建的打印输出流赋给系统。即系统下次向 ps输出
+    public static void main(String[] args) throws Exception {
+        System.out.println(HashCompute.hashCompute("D:\\TestData\\Vehicle\\pubkey.json","pubkey"));
+        //传入Json对象路径和Key值即可计算Value的hash
+    }
+
+    public static String hashCompute(String path , String key) throws Exception {
+
+        String pubkey = Input.getString(path);
+        JSONObject jsonObject = JSONObject.parseObject(pubkey);
+        String src = jsonObject.getString(key);
         String s = generateSM3HASH(src);
-        System.out.println( s);
+        return s;
+        //返回公钥hash值
     }
 
     public static String generateSM3HASH(String src) {

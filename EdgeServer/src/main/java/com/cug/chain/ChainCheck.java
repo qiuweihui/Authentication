@@ -1,6 +1,7 @@
 package com.cug.chain;
 
 import cn.hutool.json.JSONObject;
+import com.cug.server.HashCompute;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -38,10 +39,10 @@ public class ChainCheck {
             JSONObject obj = new JSONObject();
             //边缘服务器端验证的是车的VID和公钥是否匹配
             obj.put("vehicleId", "1001");
-            // VID
+            // VID，后面再调用VID返回函数
 
-            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9");
-            //公钥哈希，服务器公钥哈希，测试用，后面会调用HashCompute
+            obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\EdgeServer\\broadcast_receive.json","pubkey"));
+            //小车公钥的hash值计算并上传
 
             out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
@@ -68,6 +69,8 @@ public class ChainCheck {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

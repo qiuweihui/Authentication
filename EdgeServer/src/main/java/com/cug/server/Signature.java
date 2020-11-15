@@ -23,18 +23,26 @@ public class Signature {
         SM2SignVO sign = SM2SignVerUtils.Sign2SM2(Util.hexToByte(priKey), Util.hexToByte(sourceData));
         return sign;
     }
+    public static String jsonToString(String path , String key) throws Exception {
+        String fi = Input.getString(path);
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
+        String src = jsonObject.getString(key);
+        return src;
+        //返回传入路径和Key值对应的value值
+    }
     public static void main(String[] args) throws Exception {
 
-        //--测试SM2签名--
-        String src = Input.getString("D:\\TestData\\EdgeServer\\SID_Time.json");
-        String srcHex = Util.byteToHex(src.getBytes());  //src是要签名的内容,将其转成Hex字符串
+        String src = jsonToString("D:\\TestData\\EdgeServer\\SID_Time.json","SID_Time");
+        String srcHex = Util.byteToHex(src.getBytes());
+        //src是要签名的内容,将其转成Hex字符串
 
-        //签名开始,用服务器的私钥签名Time和SID（即src）
-        String prikey = Input.getString("D:\\TestData\\EdgeServer\\prikey.json");
+        //签名开始,用车的私钥签名Time和VID（即src）
+        String prikey = jsonToString("D:\\TestData\\EdgeServer\\prikey.json","prikey");
+
         SM2SignVO sign = genSM2Signature(prikey.trim(), srcHex);
         JSONObject json = JSONUtil.parseObj(sign, true, true);
-        Output.wirteText(String.valueOf(json),"D:\\TestData\\EdgeServer\\sign_self.json");//生成的签名会被发送给车
-        // System.out.println("签名生成完成");
+        Output.wirteText(String.valueOf(json),"D:\\TestData\\EdgeServer\\sign_server.json");
+        //生成的签名会被发送给车
 
     }
 

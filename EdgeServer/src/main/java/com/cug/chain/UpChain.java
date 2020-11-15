@@ -1,6 +1,7 @@
 package com.cug.chain;
 
 import cn.hutool.json.JSONObject;
+import com.cug.vehicle.HashCompute;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -39,8 +40,8 @@ public class UpChain {
             obj.put("serverId", "2001");
             // SID
 
-            obj.put("pubKeyHash", "AC26B3C8EE7265A495DB825D9FD8D85BB39851622D02F76615D57D307507CAB9");
-            //服务器公钥哈希，测试用，后面会调用HashCompute
+            obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\EdgeServer\\pubkey.json","pubkey"));
+            //上传服务器公钥哈希
 
             out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
@@ -67,6 +68,8 @@ public class UpChain {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

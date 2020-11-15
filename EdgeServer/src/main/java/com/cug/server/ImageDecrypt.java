@@ -28,18 +28,14 @@ public class ImageDecrypt {
 
         String dp = "D:\\TestData\\EdgeServer\\EncryptData\\encrypt";
         //加密后文件
-        String dp2 = "D:\\TestData\\EdgeServer\\DecryptData\\decrypt";
+        String dp2 = "D:\\TestData\\EdgeServer\\DecryptData\\decrypt.avi";
         //解密后文件，指定文件格式，如.jpg.mp4可直接播放
-        String key = Input.getString("D:\\TestData\\Vehicle\\sm4key.json");
-        byte[] keyData = ByteUtils.fromHexString(key);
-        long startTime = System.currentTimeMillis();
 
-        //解密文件
+        String key = jsonToString("D:\\TestData\\EdgeServer\\sm4key.json","sm4key");
+        byte[] keyData = ByteUtils.fromHexString(key);
+        //解密文件并输出存储
         decryptFile(keyData, dp, dp2);
-        long endTime2 = System.currentTimeMillis();
-        //获取结束时间
-        System.out.println("解密文件时间：" + (endTime2 - startTime) + "ms");
-        //输出程序运行时间
+
     }
 
 
@@ -97,6 +93,13 @@ public class ImageDecrypt {
             IoUtil.close(byteArrayInputStream);
             IoUtil.close(in);
         }
+    }
+    public static String jsonToString(String path , String key) throws Exception {
+        String fi = Input.getString(path);
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
+        String src = jsonObject.getString(key);
+        return src;
+        //返回传入路径和Key值对应的value值
     }
 }
 

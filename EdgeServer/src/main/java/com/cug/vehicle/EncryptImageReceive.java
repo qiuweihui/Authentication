@@ -11,7 +11,7 @@ import java.io.IOException;
 public class EncryptImageReceive extends Server{
 
     public static void main(String[] arge) throws IOException {
-        EncryptImageReceive.start("D:\\TestData\\EdgeServer\\EncryptData");
+        EncryptImageReceive.start("D:\\TestData\\EdgeServer\\EncryptData\\encrypt");
         //接收加密的数据，数据可以自增编号
     }
 }

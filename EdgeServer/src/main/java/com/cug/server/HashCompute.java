@@ -1,10 +1,9 @@
 package com.cug.server;
 
-import com.cug.utils.IOUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.cug.utils.Input;
 import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.util.encoders.Hex;
-
-import java.io.IOException;
 
 /**
  * @author qiuweihui
@@ -16,13 +15,20 @@ import java.io.IOException;
  *
  */
 public class HashCompute {
-    public static String main(String[] args) throws IOException {
-        //指定文件源，获得该文件的字节数组
-        byte[] datas = IOUtil.fileToByteArray("D:\\TestData\\EdgeServer\\");
-        //需要计算的内容（公钥）转为字节数组
-        String src = new String(datas);
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(HashCompute.hashCompute("D:\\TestData\\EdgeServer\\broadcast_receive.json","pubkey"));
+    //传入Json对象路径和Key值即可计算Value的hash
+    }
+
+    public static String hashCompute(String path , String key) throws Exception {
+
+        String pubkey = Input.getString(path);
+        JSONObject jsonObject = JSONObject.parseObject(pubkey);
+        String src = jsonObject.getString(key);
         String s = generateSM3HASH(src);
         return s;
+        //返回公钥hash值
     }
 
     public static String generateSM3HASH(String src) {

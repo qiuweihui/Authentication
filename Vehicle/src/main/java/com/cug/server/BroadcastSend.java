@@ -15,19 +15,19 @@ import com.cug.utils.Output;
 public class BroadcastSend extends Client {
 
     public static void main(String[] args) throws Exception {
-        String jsonkey1 = Input.getString("D:\\TestData\\Vehicle\\pubkey.json");
-        JSONObject jsonObject1 = JSONObject.parseObject(jsonkey1);
-        String jsonkey2 = Input.getString("D:\\TestData\\Vehicle\\sign_vehicle.json");
-        JSONObject jsonObject2 = JSONObject.parseObject(jsonkey2);
-        String jsonkey3 = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
-        JSONObject jsonObject3 = JSONObject.parseObject(jsonkey3);
+        String json1 = Input.getString("D:\\TestData\\Vehicle\\pubkey.json");
+        JSONObject jsonObject1 = JSONObject.parseObject(json1);
+        String json2 = Input.getString("D:\\TestData\\Vehicle\\sign_vehicle.json");
+        JSONObject jsonObject2 = JSONObject.parseObject(json2);
+        String json3 = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
+        JSONObject jsonObject3 = JSONObject.parseObject(json3);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putAll(jsonObject1);
         jsonObject.putAll(jsonObject2);
         jsonObject.putAll(jsonObject3);
         Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\Vehicle\\broadcast_send.json");
-
+        //发送的内容先合并再发送
         BroadcastSend.start("D:\\TestData\\Vehicle\\broadcast_send.json");
 
     }

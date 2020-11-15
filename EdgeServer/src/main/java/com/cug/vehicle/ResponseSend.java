@@ -10,7 +10,7 @@ import com.cug.utils.Output;
  * 步骤5，对小车广播的回应，角色为Client
  * 发送内容为签名信息，加密信息,签名的原文内容
  */
-public class BroadcastResponse extends Client {
+public class ResponseSend extends Client {
     public static void main(String[] args) throws Exception {
 
         String jsonkey1 = Input.getString("D:\\TestData\\EdgeServer\\key_encrypt.json");
@@ -24,9 +24,9 @@ public class BroadcastResponse extends Client {
         jsonObject.putAll(jsonObject1);
         jsonObject.putAll(jsonObject2);
         jsonObject.putAll(jsonObject3);
-        Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\EdgeServer\\broadcast_response.json");
+        Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\EdgeServer\\response_send.json");
 
-        BroadcastResponse.start("D:\\TestData\\EdgeServer\\broadcast_response.json");
+        ResponseSend.start("D:\\TestData\\EdgeServer\\response_send.json");
     }
 
 

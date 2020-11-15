@@ -14,7 +14,8 @@ import java.io.IOException;
 public class DataTransmit extends Client {
 
     public static void main(String[] args) throws IOException {
-        DataTransmit.start("D:\\TestData\\EdgeServer\\DecryptData");
+        DataTransmit.start("D:\\TestData\\EdgeServer\\DecryptData\\decrypt.avi");
+        //转发已解密的视频到中心服务器
     }
 
 }

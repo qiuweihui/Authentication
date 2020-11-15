@@ -14,5 +14,4 @@ public class TokenTransmit  extends Client {
         TokenTransmit.start("D:\\TestData\\EdgeServer\\Token.json");
     }
 
-
 }

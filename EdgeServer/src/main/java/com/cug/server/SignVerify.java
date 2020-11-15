@@ -18,22 +18,29 @@ public class SignVerify {
         return verify.isVerify();
     }
 
-    public static boolean signVerify(String[] args) throws Exception {
+    public static String jsonToString(String path , String key) throws Exception {
+        String fi = Input.getString(path);
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
+        String src = jsonObject.getString(key);
+        return src;
+        //返回传入路径和Key值对应的value值
+    }
+
+    public static boolean main(String[] args) throws Exception {
 
         //签名
-        String src = Input.getString("D:\\TestData\\EdgeServer\\VID_Time.json");
+        String src = jsonToString("D:\\TestData\\EdgeServer\\broadcast_receive.json","VID_Time");
         String srcHex = Util.byteToHex(src.getBytes());
         //读入签名的原内容,将其转成Hex字符串
-        String pubkey = Input.getString("D:\\TestData\\EdgeServer\\pubkey_vehicle.json");
-        //读入公钥
-        String sign = Input.getString("D:\\TestData\\EdgeServer\\sign_vehicle.json");
+
+        String pubkey = jsonToString("D:\\TestData\\EdgeServer\\broadcast_receive.json","pubkey");
+        //读入小车公钥
+        String sm2_sign = jsonToString("D:\\TestData\\EdgeServer\\broadcast_receive.json","sm2_sign");
         //读入签名内容，只取其中sm2_sign部分
-        JSONObject jsonObject = JSONObject.parseObject(sign);
-        String sm2_sign = jsonObject.getString("sm2_sign");
 
         //验签，用车的公钥验签；（公钥，原文，签名内容）
-        return verifySM2Signature(pubkey.trim(), srcHex, sm2_sign);
-
+        boolean b = verifySM2Signature(pubkey.trim(), srcHex, sm2_sign);
+        return b;
     }
 
 }

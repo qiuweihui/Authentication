@@ -13,7 +13,8 @@ import java.io.IOException;
 public class BroadcastReceive extends Server{
     public static void main(String[] arge) throws IOException {
 
-        BroadcastReceive.start("D:\\TestData\\EdgeServer\\broadcast_send.json");
+        BroadcastReceive.start("D:\\TestData\\EdgeServer\\broadcast_receive.json");
+        //小车公钥，小车签名，签名原文，都存在此Json对象中，需要时直接调用
 
     }
 
