@@ -19,13 +19,11 @@ public class BroadcastSend extends Client {
         JSONObject jsonObject1 = JSONObject.parseObject(json1);
         String json2 = Input.getString("D:\\TestData\\Vehicle\\sign_vehicle.json");
         JSONObject jsonObject2 = JSONObject.parseObject(json2);
-        String json3 = Input.getString("D:\\TestData\\Vehicle\\VID_Time.json");
-        JSONObject jsonObject3 = JSONObject.parseObject(json3);
+        //sign_vehicle包含了签名和原文
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putAll(jsonObject1);
         jsonObject.putAll(jsonObject2);
-        jsonObject.putAll(jsonObject3);
         Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\Vehicle\\broadcast_send.json");
         //发送的内容先合并再发送
         BroadcastSend.start("D:\\TestData\\Vehicle\\broadcast_send.json");

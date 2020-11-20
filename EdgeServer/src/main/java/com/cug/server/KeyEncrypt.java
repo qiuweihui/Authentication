@@ -32,7 +32,7 @@ public class KeyEncrypt {
         String src12 = src + src1;
 
         String jsonkey2 = Input.getString("D:\\TestData\\EdgeServer\\broadcast_receive.json");
-        //读入接收到的小车SM2公钥
+        //读入接收到的小车SM2公钥,用来加密src12
         JSONObject jsonObject2 = JSONObject.parseObject(jsonkey2);
         String pubkey_vehicle = jsonObject2.getString("pubkey");
 

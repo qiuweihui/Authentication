@@ -13,5 +13,4 @@ public class TokenTransmit  extends Client {
     public static void main(String[] args) throws IOException {
         TokenTransmit.start("D:\\TestData\\EdgeServer\\Token.json");
     }
-
 }

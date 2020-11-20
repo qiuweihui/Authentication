@@ -17,13 +17,12 @@ public class ResponseSend extends Client {
         JSONObject jsonObject1 = JSONObject.parseObject(jsonkey1);
         String jsonkey2 = Input.getString("D:\\TestData\\EdgeServer\\sign_server.json");
         JSONObject jsonObject2 = JSONObject.parseObject(jsonkey2);
-        String jsonkey3 = Input.getString("D:\\TestData\\EdgeServer\\SID_Time.json");
-        JSONObject jsonObject3 = JSONObject.parseObject(jsonkey3);
+
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putAll(jsonObject1);
         jsonObject.putAll(jsonObject2);
-        jsonObject.putAll(jsonObject3);
+
         Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\EdgeServer\\response_send.json");
 
         ResponseSend.start("D:\\TestData\\EdgeServer\\response_send.json");

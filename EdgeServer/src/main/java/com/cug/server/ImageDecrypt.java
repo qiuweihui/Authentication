@@ -34,7 +34,10 @@ public class ImageDecrypt {
         String key = jsonToString("D:\\TestData\\EdgeServer\\sm4key.json","sm4key");
         byte[] keyData = ByteUtils.fromHexString(key);
         //解密文件并输出存储
+        boolean flag;
         decryptFile(keyData, dp, dp2);
+        flag = true;
+        System.out.println(flag);
 
     }
 

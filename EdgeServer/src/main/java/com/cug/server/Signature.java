@@ -32,17 +32,26 @@ public class Signature {
     }
     public static void main(String[] args) throws Exception {
 
-        String src = jsonToString("D:\\TestData\\EdgeServer\\SID_Time.json","SID_Time");
-        String srcHex = Util.byteToHex(src.getBytes());
+        String SID = jsonToString("D:\\TestData\\EdgeServer\\SID.json","SID");
+        long timestamp=System.currentTimeMillis();
+        String time = String.valueOf(timestamp);
+        String SID_Time = SID + time;
+
+        String srcHex = Util.byteToHex(SID_Time.getBytes());
         //src是要签名的内容,将其转成Hex字符串
 
-        //签名开始,用车的私钥签名Time和VID（即src）
-        String prikey = jsonToString("D:\\TestData\\EdgeServer\\prikey.json","prikey");
+        //签名开始,用车的私钥签名SID_Time
 
+        String prikey = jsonToString("D:\\TestData\\EdgeServer\\prikey.json","prikey");
         SM2SignVO sign = genSM2Signature(prikey.trim(), srcHex);
         JSONObject json = JSONUtil.parseObj(sign, true, true);
-        Output.wirteText(String.valueOf(json),"D:\\TestData\\EdgeServer\\sign_server.json");
-        //生成的签名会被发送给车
+        String sm2_sign = json.getStr("sm2_sign");
+        //我们只需要签名结果的sm2_sign对
+        JSONObject signobj =new JSONObject();
+        signobj.accumulate("sm2_sign",sm2_sign);
+        signobj.accumulate("SID_Time",SID_Time);
+        //将原文SID_Time和签名后的结果都放入signobj中
+        Output.wirteText(String.valueOf(signobj),"D:\\TestData\\EdgeServer\\sign_server.json");
 
     }
 

@@ -1,6 +1,7 @@
 package com.cug.chain;
 
 import cn.hutool.json.JSONObject;
+import com.cug.utils.Input;
 import com.cug.vehicle.HashCompute;
 
 import java.io.*;
@@ -28,17 +29,18 @@ public class UpChain {
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
             connection.setInstanceFollowRedirects(true);
-
             connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-
             connection.connect();
 
             //POST请求
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             JSONObject obj = new JSONObject();
 
-            obj.put("serverId", "2001");
-            // SID
+            //读入并添加SID
+            String jsonSID = Input.getString("D:\\TestData\\EdgeServer\\SID.json");
+            com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonSID);
+            String SID = jsonObject.getString("SID");
+            obj.put("serverId",SID);
 
             obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\EdgeServer\\pubkey.json","pubkey"));
             //上传服务器公钥哈希

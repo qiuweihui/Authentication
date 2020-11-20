@@ -1,6 +1,5 @@
 package com.cug.server;
 
-import com.alibaba.fastjson.JSONObject;
 import cn.xjfme.encrypt.utils.Util;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVO;
 import cn.xjfme.encrypt.utils.sm2.SM2SignVerUtils;
@@ -26,7 +25,7 @@ public class SignVerify {
         //返回传入路径和Key值对应的value值
     }
 
-    public static boolean main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         //签名
         String src = jsonToString("D:\\TestData\\EdgeServer\\broadcast_receive.json","VID_Time");
@@ -40,7 +39,7 @@ public class SignVerify {
 
         //验签，用车的公钥验签；（公钥，原文，签名内容）
         boolean b = verifySM2Signature(pubkey.trim(), srcHex, sm2_sign);
-        return b;
+        System.out.println(b);
     }
 
 }

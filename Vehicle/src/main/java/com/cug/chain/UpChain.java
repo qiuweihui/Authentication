@@ -1,6 +1,7 @@
 package com.cug.chain;
 
 import cn.hutool.json.JSONObject;
+import com.cug.utils.Input;
 import com.cug.vehicle.HashCompute;
 
 import java.io.*;
@@ -28,22 +29,21 @@ public class UpChain {
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
             connection.setInstanceFollowRedirects(true);
-
-            //connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-
             connection.connect();
 
             //POST请求
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             JSONObject obj = new JSONObject();
 
-            obj.put("vehicleId", "1001");
-            // VID
+            //读入并添加VID
+            String jsonVID = Input.getString("D:\\TestData\\Vehicle\\VID.json");
+            com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonVID);
+            String VID = jsonObject.getString("VID");
+            obj.put("serverId",VID);
 
             obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\Vehicle\\pubkey.json","pubkey"));
             //上传车的公钥哈希
-
 
             out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
@@ -80,5 +80,4 @@ public class UpChain {
     public static void main(String[] args) {
         appadd();
     }
-
 }

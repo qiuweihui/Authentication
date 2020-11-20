@@ -33,16 +33,25 @@ public class Signature {
     }
     public static void main(String[] args) throws Exception {
 
-        String src = jsonToString("D:\\TestData\\Vehicle\\VID_Time.json","VID_Time");
-        String srcHex = Util.byteToHex(src.getBytes());
+        String VID = jsonToString("D:\\TestData\\Vehicle\\VID.json","VID");
+        long timestamp=System.currentTimeMillis();
+        String time = String.valueOf(timestamp);
+        String VID_Time = VID + time;
+        String srcHex = Util.byteToHex(VID_Time.getBytes());
         //src是要签名的内容,将其转成Hex字符串
 
         //签名开始,用车的私钥签名Time和VID（即src）
         String prikey = jsonToString("D:\\TestData\\Vehicle\\prikey.json","prikey");
 
         SM2SignVO sign = genSM2Signature(prikey.trim(), srcHex);
-        JSONObject json = JSONUtil.parseObj(sign, true, true);
-       Output.wirteText(String.valueOf(json),"D:\\TestData\\Vehicle\\sign_vehicle.json");
+        JSONObject json = JSONUtil.parseObj(sign);
+        String sm2_sign = json.getStr("sm2_sign");
+        //我们只需要签名结果的sm2_sign对
+        JSONObject signobj =new JSONObject();
+        signobj.accumulate("sm2_sign",sm2_sign);
+        signobj.accumulate("VID_Time",VID_Time);
+        //将原文VID_Time和签名后的结果都放入signobj中
+        Output.wirteText(String.valueOf(signobj),"D:\\TestData\\Vehicle\\sign_vehicle.json");
 
     }
 

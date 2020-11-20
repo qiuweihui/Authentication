@@ -28,7 +28,6 @@ public class SignVerify {
 
     public static void main(String[] args) throws Exception {
 
-
         String src = jsonToString("D:\\TestData\\Vehicle\\response_receive.json","SID_Time");
         String srcHex = Util.byteToHex(src.getBytes());
         //读入签名的原内容,将其转成Hex字符串
