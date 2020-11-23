@@ -26,7 +26,7 @@ public class BroadcastSend extends Client {
         jsonObject.putAll(jsonObject2);
         Output.wirteText(String.valueOf(jsonObject),"D:\\TestData\\Vehicle\\broadcast_send.json");
         //发送的内容先合并再发送
-        BroadcastSend.start("D:\\TestData\\Vehicle\\broadcast_send.json");
+        BroadcastSend.start("D:\\TestData\\Vehicle\\broadcast_send.json","192.168.2.3");
 
     }
 

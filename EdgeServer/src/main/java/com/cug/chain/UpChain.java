@@ -41,10 +41,9 @@ public class UpChain {
             com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonSID);
             String SID = jsonObject.getString("SID");
             obj.put("serverId",SID);
-
             obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\EdgeServer\\pubkey.json","pubkey"));
             //上传服务器公钥哈希
-
+            System.out.println(obj);
             out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
             out.close();

@@ -1,9 +1,13 @@
 package com.cug.vehicle;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cug.utils.IOUtil;
 import com.cug.utils.Input;
 import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.util.encoders.Hex;
+import org.junit.Test;
+
+import java.util.Base64;
 
 /**
  * @author qiuweihui
@@ -28,7 +32,14 @@ public class HashCompute {
         return s;
         //返回公钥hash值
     }
+    public static String imageHashCompute(String path ) throws Exception {
 
+        byte[] imageByte = IOUtil.fileToByteArray(path);
+        String src = Base64.getEncoder().encodeToString(imageByte);
+        String s = generateSM3HASH(src);
+        return s;
+        //返回图像数据的hash值
+    }
     public static String generateSM3HASH(String src) {
         byte[] md = new byte[32];
         byte[] msg1 = src.getBytes();
@@ -37,6 +48,12 @@ public class HashCompute {
         sm3.doFinal(md, 0);
         String s = new String(Hex.encode(md));
         return s.toUpperCase();
+    }
+
+    @Test
+    public void imageHashComputeTest() throws Exception {
+        String hash =  imageHashCompute("D:\\TestData\\Vehicle\\ImageData\\TestVideo.avi");
+        System.out.println(hash);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cug.chain;
 
 import cn.hutool.json.JSONObject;
+import com.cug.utils.Input;
 import com.cug.vehicle.HashCompute;
 
 import java.io.*;
@@ -30,9 +31,7 @@ public class ChainCheck {
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
             connection.setInstanceFollowRedirects(true);
-
             connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-
             connection.connect();
 
             //POST请求
@@ -40,10 +39,17 @@ public class ChainCheck {
             JSONObject obj = new JSONObject();
 
             //车辆端核验的是服务器SID和公钥是否匹配
-            obj.put("serverId", "2001");
-            // SID
-            obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\Vehicle\\pubkey_server.json","pubkey"));
-            //服务器公钥哈希核验
+            //读入并添加SID
+            String jsonSID = Input.getString("D:\\TestData\\Vehicle\\response_receive.json");
+            com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonSID);
+            String SID_Time = jsonObject.getString("SID_Time");
+            //取前四位为SID
+            String SID = SID_Time.substring(0,4);
+            System.out.println(SID);
+            obj.put("serverId", SID);
+            obj.put("pubKeyHash", HashCompute.hashCompute
+                    ("D:\\TestData\\Vehicle\\pubkey_server.json","pubkey"));
+            //服务器公钥哈希计算并核验
 
             out.write(obj.toString().getBytes("UTF-8"));
             out.flush();

@@ -24,7 +24,7 @@ public class ReadFromFileTest {
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+
         }
         try {
             System.out.println("以字节为单位读取文件内容，一次读多个字节：");
@@ -47,6 +47,7 @@ public class ReadFromFileTest {
                 }
             }
         }
+
     }
 
     private static void showAvailableBytes(InputStream in) {

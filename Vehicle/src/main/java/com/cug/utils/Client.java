@@ -14,12 +14,13 @@ import java.net.Socket;
  */
 public class Client {
     public static void main(String[] args) throws IOException, Exception {
-            Client.start("D:\\TestData\\Vehicle\\");
+            Client.start("D:\\TestData\\Vehicle\\","123.123");
     }
         //传入参数目前只有文件地址，后再添加IP地址
-    public static void start(String inputPath) throws IOException{
+    public static void start(String inputPath, String iP) throws IOException{
         //1.创建Socket对象，指明服务器端的ip和端口号
-        Socket socket = new Socket(InetAddress.getByName("127.0.0.1"),9090);//172.27.40.221
+        Socket socket = new Socket(InetAddress.getByName(iP),9090);
+        //172.27.40.221
         //2.获取一个输出流，用于输出数据
         OutputStream os = socket.getOutputStream();
         //3.写出数据的操作

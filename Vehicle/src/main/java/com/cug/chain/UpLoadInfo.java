@@ -1,6 +1,8 @@
 package com.cug.chain;
 
 import cn.hutool.json.JSONObject;
+import com.cug.utils.Input;
+import com.cug.vehicle.HashCompute;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -36,17 +38,22 @@ public class UpLoadInfo {
             //POST请求
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             JSONObject obj = new JSONObject();
-            long timestamp = System.currentTimeMillis()/1000;
-            obj.put("vehicleId", "1001");
+            long timestamp = System.currentTimeMillis();
+            String jsonVID = Input.getString("D:\\TestData\\Vehicle\\VID.json");
+            com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonVID);
+            String VID = jsonObject.getString("VID");
+            obj.put("vehicleId",VID);
             obj.put("eventId", "20201101235959");
-            obj.put("vehicleNum", "PK1234");
             obj.put("createTime", timestamp);
-            obj.put("height", "259.34");
+            obj.put("videohash", HashCompute.imageHashCompute
+                    ("D:\\TestData\\Vehicle\\ImageData\\TestVideo.avi"));
+            //视频hash，传入地址，请确保测试视频名称一致
+            String jsonText = Input.getString("D:\\TestData\\Vehicle\\text_data.json");
+            com.alibaba.fastjson.JSONObject textData = com.alibaba.fastjson.JSONObject.parseObject(jsonText);
+            obj.putAll(textData);
+            //添加text数据，如海拔，经纬度，加速度
 
-
-            //服务器公钥哈希，测试用，后面会调用HashCompute
-
-            out.write(obj.toString().getBytes("UTF-8"));//这样可以处理中文乱码问题
+            out.write(obj.toString().getBytes("UTF-8"));
             out.flush();
             out.close();
 
@@ -71,6 +78,8 @@ public class UpLoadInfo {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

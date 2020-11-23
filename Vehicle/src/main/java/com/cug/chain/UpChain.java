@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author qiuweihui
@@ -40,12 +41,13 @@ public class UpChain {
             String jsonVID = Input.getString("D:\\TestData\\Vehicle\\VID.json");
             com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonVID);
             String VID = jsonObject.getString("VID");
-            obj.put("serverId",VID);
+            obj.put("vehicleId",VID);
 
-            obj.put("pubKeyHash", HashCompute.hashCompute("D:\\TestData\\Vehicle\\pubkey.json","pubkey"));
+            obj.put("pubKeyHash", HashCompute.hashCompute
+                    ("D:\\TestData\\Vehicle\\pubkey.json","pubkey"));
             //上传车的公钥哈希
 
-            out.write(obj.toString().getBytes("UTF-8"));
+            out.write(obj.toString().getBytes(StandardCharsets.UTF_8));
             out.flush();
             out.close();
 

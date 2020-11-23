@@ -10,7 +10,6 @@ import com.cug.utils.Output;
 /**
  * @author qiuweihui
  * @create 2020-10-27 21:22
- *
  * 车辆端签名
  * 小车端用车的私钥对车的VID和事故发生的时间Time进行签名
  * 属于第2步前提
@@ -22,14 +21,6 @@ public class Signature {
     public static SM2SignVO genSM2Signature(String priKey, String sourceData) throws Exception {
         SM2SignVO sign = SM2SignVerUtils.Sign2SM2(Util.hexToByte(priKey), Util.hexToByte(sourceData));
         return sign;
-    }
-    //JsonTOString
-    public static String jsonToString(String path , String key) throws Exception {
-        String fi = Input.getString(path);
-        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
-        String src = jsonObject.getString(key);
-        return src;
-        //返回传入路径和Key值对应的value值
     }
     public static void main(String[] args) throws Exception {
 
@@ -54,5 +45,12 @@ public class Signature {
         Output.wirteText(String.valueOf(signobj),"D:\\TestData\\Vehicle\\sign_vehicle.json");
 
     }
-
+    //JsonTOString
+    public static String jsonToString(String path , String key) throws Exception {
+        String fi = Input.getString(path);
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(fi);
+        String src = jsonObject.getString(key);
+        return src;
+        //返回传入路径和Key值对应的value值
+    }
 }
